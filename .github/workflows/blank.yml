@@ -77,7 +77,8 @@ jobs:
                 echo "$pair"
                 echo "$pair" >> image_tag.txt
             done
-            image_tags=$(awk -F":" '{ print $1":"$2 }' image_tag.txt | tr '\n' ',' | sed 's/,$//')
+            #image_tags=$(awk -F":" '{ print $1":"$2 }' image_tag.txt | tr '\n' ',' | sed 's/,$//')
+            image_tags=$(awk -F":" '{ printf "\"%s:%s\",\n", $1, $2 }' image_tag.txt | sed '$s/,$//')
             image_tags="[ $image_tags ]"
             echo $image_tags 
             echo ${image_tags}
