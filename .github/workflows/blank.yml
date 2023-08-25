@@ -88,12 +88,12 @@ jobs:
   scan:
     needs: build
     name:  Scan [ ${{ matrix.image_tag }}]  
-    runs-on: [self-hosted] # ets-runners-prod
+    runs-on: ubuntu-latest # ets-runners-prod
     strategy:
       max-parallel: 1
       fail-fast: false
       matrix: 
-        image_tag: ${{ fromJson(needs.build.outputs.test_tag) }}
+        image_tag: ${{ fromJson(needs.build.outputs.image_tag) }}
           
     steps: 
       - name: Pull image
