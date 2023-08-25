@@ -21,6 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       image_tag: ${{ steps.get_images.outputs.image_tag }}
+      test_tag: ${{ steps.get_images.outputs.test_tag }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -80,7 +81,9 @@ jobs:
             image_tags="[ $image_tags ]"
             echo $image_tags 
             echo ${image_tags}
+            test_tags="[ 123, 345, 678 ]"
             echo ::set-output name=image_tag::${image_tags}
+            echo ::set-output name=test_tag::${test_tags}
   scan:
     needs: build
     name:  Scan [ ${{ matrix.image_tag }}]  
@@ -89,7 +92,7 @@ jobs:
       max-parallel: 1
       fail-fast: false
       matrix: 
-        image_tag: ${{ fromJson(needs.build.outputs.image_tag) }}
+        image_tag: ${{ fromJson(needs.build.outputs.test_tag) }}
           
     steps: 
       - name: Pull image
